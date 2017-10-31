@@ -3,6 +3,22 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Rubric Discussion Points
+
+* Describe the effect each of the P, I, D components had in your implementation.
+
+The P controller allows the car to steer back to the right track proportional to the cross track error (CTE) (how much the car is away from the ideal track). One of the drawbacks of the P controller is that it can overshoot the correction, which causing the car to swing around the ideal track.
+
+The D controller is to use the derivative of the CTE to smooth the correction of the P controller. 
+
+The I controller is to adjust to the systematic bias. One example of the systematic bias is that the steering wheels are slightly off while we assume that they go straight. A integral term of the CTE will automatically adjust the correction to this systematic bias as time goes by.
+
+* Describe how the final hyperparameters were chosen. 
+
+The final hyperparameters were chosen manually. I started the initial P, I, D coefficients as 1.0, 0.5, 1.0. Then I found that the car overly correct itself and as times goes the car was zig-zaging increasingly. It implis that the car has very small systematic bias so I make the I coefficient to 0. It is a lot better this time but the car still seems overshoot the cross track error and zig-zaging, and was not able to finish one complete track. So I tried lowering the P coeffcient and higher the D coefficient to make the controller more stably adjust itself to the ideal track. After a few adjustments I found [P, I, D] = [0.25, 0, 3] works quit well and the car successfully finish the whole track.
+
+Possible improvement would be applying the twiddle algorithm to auto adjust the parameters.
+
 ## Dependencies
 
 * cmake >= 3.5
